@@ -24,6 +24,10 @@ public class PanelClient extends JFrame{
         JLabel welcome = new JLabel(leClient.getNomClient()+" "+leClient.getNomClient());
         welcome.setBounds(10,45,160,30);
 
+        JLabel infoCompte = new JLabel();
+        infoCompte.setBounds(10,75,160,30);
+
+
         JComboBox comboComptes = new JComboBox();
         comboComptes.setBounds(10,10,160,30);
         comboComptes.removeAllItems();
@@ -35,18 +39,20 @@ public class PanelClient extends JFrame{
             comboComptes.addItem(compteClient.getNumero());
         }
 
-        panel.add(welcome);
-        panel.add(comboComptes);
-        getContentPane().add(panel);
-
         comboComptes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-
                 JComboBox comboComptes = (JComboBox) event.getSource();
+                String soldeCompte = comboComptes.getSelectedItem().toString();
+                infoCompte.setText(manager.getSoldeCompte(soldeCompte));
 
-                System.out.println("toto");
             }
         });
+
+        panel.add(welcome);
+        panel.add(comboComptes);
+        panel.add(infoCompte);
+
+        getContentPane().add(panel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
