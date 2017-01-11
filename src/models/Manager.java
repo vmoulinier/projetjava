@@ -2,31 +2,13 @@ package models;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vmoul on 10/01/2017.
  */
 public class Manager {
 
-    Connection conn = null;
-    String url = "jdbc:mysql://localhost:3306/java_projet";
-    String utilisateur = "root";
-    String motDePasse = "";
-
-    private void getconnection() throws SQLException
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection( url, utilisateur, motDePasse );
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            System.out.println("Ca a planté");
-        }
-    }
+    Connexion connexion = new Connexion();
 
     public Client getInfosClient(int codeClient)
     {
@@ -34,8 +16,8 @@ public class Manager {
 
         try
         {
-            getconnection();
-            Statement stmt = conn.createStatement();
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
             ResultSet resSect = stmt.executeQuery("SELECT * FROM client WHERE id = '"+codeClient+"'");
 
             while (resSect.next())
@@ -43,7 +25,7 @@ public class Manager {
                 client = new Client(resSect.getInt("id"), resSect.getString("nom"), resSect.getString("prenom"), resSect.getString("mdp"), resSect.getString("adresse"), resSect.getString("cp"), resSect.getString("ville"));
         }
             resSect.close();
-            conn.close();
+            connexion.conn.close();
         }
         catch (SQLException e)
         {
@@ -58,8 +40,8 @@ public class Manager {
 
         try
         {
-            getconnection();
-            Statement stmt = conn.createStatement();
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
             ResultSet resSect = stmt.executeQuery("SELECT * FROM client WHERE nom = '"+nom+"' AND mdp = '"+password+"'");
 
             while (resSect.next())
@@ -86,8 +68,8 @@ public class Manager {
 
         try
         {
-            getconnection();
-            Statement stmt = conn.createStatement();
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
             ResultSet resSect = stmt.executeQuery("SELECT * FROM compte WHERE id_client = '"+id+"'");
 
             while (resSect.next())
@@ -104,4 +86,29 @@ public class Manager {
         return arrayComptes;
 
     }
+
+    public String getSoldeCompte(String numeroCompte)
+    {
+        String res = "";
+
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM compte WHERE numero = '"+numeroCompte+"'");
+
+            while (resSect.next())
+            {
+                res = resSect.getString("solde");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+
 }
