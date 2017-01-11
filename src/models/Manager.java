@@ -1,6 +1,8 @@
 package models;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vmoul on 10/01/2017.
@@ -78,4 +80,28 @@ public class Manager {
 
     }
 
+    public ArrayList<Compte> getComptesFromClient(int id) {
+
+        ArrayList<Compte> arrayComptes = new ArrayList<>();
+
+        try
+        {
+            getconnection();
+            Statement stmt = conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM compte WHERE id_client = '"+id+"'");
+
+            while (resSect.next())
+            {
+                Compte compte = new Compte(resSect.getInt("id"), resSect.getString("numero"), resSect.getDouble("solde"), resSect.getString("type"), resSect.getInt("id_banque"), resSect.getInt("id_client"));
+                arrayComptes.add(compte);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return arrayComptes;
+
+    }
 }
