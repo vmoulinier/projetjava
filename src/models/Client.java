@@ -8,14 +8,16 @@ public class Client {
     private int codeClient;
     private String nomClient;
     private String prenomClient;
+    private String mdpClient;
     private String adresseClient;
     private String cpClient;
     private String villeClient;
 
-    public Client(int codeClient, String nomClient, String prenomClient, String adresseClient, String cpClient, String villeClient) {
+    public Client(int codeClient, String nomClient, String prenomClient, String mdpClient, String adresseClient, String cpClient, String villeClient) {
         this.codeClient = codeClient;
         this.nomClient = nomClient;
         this.prenomClient = prenomClient;
+        this.mdpClient = mdpClient;
         this.adresseClient = adresseClient;
         this.cpClient = cpClient;
         this.villeClient = villeClient;
@@ -43,6 +45,14 @@ public class Client {
 
     public void setPrenomClient(String prenomClient) {
         this.prenomClient = prenomClient;
+    }
+
+    public String getMdpClient() {
+        return mdpClient;
+    }
+
+    public void setMdpClient(String mdpClient) {
+        this.mdpClient = mdpClient;
     }
 
     public String getAdresseClient() {
