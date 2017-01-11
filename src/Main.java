@@ -1,4 +1,3 @@
-import models.Manager;
 import vue.PanelLogin;
 
 

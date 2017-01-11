@@ -3,6 +3,7 @@ package vue;
 import java.awt.event.*;
 import javax.swing.*;
 import models.Manager;
+import models.Client;
 
 /**
  * Created by vmoul on 10/01/2017.
@@ -46,19 +47,23 @@ public class PanelLogin extends JFrame {
         add(loginButton);
     }
 
-    public void actionlogin(){
+    public void actionlogin() {
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 String puname = userText.getText();
                 String ppaswd = passwordText.getText();
-                if(manager.login(puname, ppaswd) != 0) {
-                    manager.getInfosClient(manager.login(puname, ppaswd));
-                    PanelClient panelclient = new PanelClient();
+                if (manager.login(puname, ppaswd) != 0) {
+
+                    Client leClient = new Client(manager.getInfosClient(manager.login(puname, ppaswd)));
+
+                    System.out.println(leClient.getNomClient());
+
+                    PanelClient panelclient = new PanelClient(leClient);
                     panelclient.setVisible(true);
                     dispose();
                 } else {
 
-                    JOptionPane.showMessageDialog(null,"Mauvais MDP / Nom");
+                    JOptionPane.showMessageDialog(null, "Mauvais MDP / Nom");
                     userText.setText("");
                     passwordText.setText("");
                     userText.requestFocus();
@@ -67,15 +72,4 @@ public class PanelLogin extends JFrame {
             }
         });
     }
-
-    public String getNomClient()
-    {
-        return this.userText.getText();
-    }
-
-    public String getPasswordClient()
-    {
-        return this.passwordLabel.getText();
-    }
-
 }
