@@ -23,6 +23,16 @@ public class Client {
         this.villeClient = villeClient;
     }
 
+    public Client(Client cli) {
+        this.codeClient = cli.getCodeClient();
+        this.nomClient = cli.getNomClient();
+        this.prenomClient = cli.getPrenomClient();
+        this.mdpClient = cli.getMdpClient();
+        this.adresseClient = cli.getAdresseClient();
+        this.cpClient = cli.getCpClient();
+        this.villeClient = cli.getVilleClient();
+    }
+
     public int getCodeClient() {
         return codeClient;
     }
