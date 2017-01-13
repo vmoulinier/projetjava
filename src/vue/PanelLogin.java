@@ -1,9 +1,7 @@
 package vue;
 
-import java.awt.event.*;
 import javax.swing.*;
-import models.Manager;
-import models.Client;
+
 
 /**
  * Created by vmoul on 10/01/2017.
@@ -14,14 +12,11 @@ public class PanelLogin extends JFrame {
     private JTextField userText = new JTextField(20);
     private JLabel passwordLabel = new JLabel("Mot de passe");
     private JPasswordField passwordText = new JPasswordField(20);
-    private JButton loginButton = new JButton("login");
-    private Manager manager = new Manager();
-
+    private JButton loginButton = new JButton("Connexion");
 
     public PanelLogin() {
         super();
         initialize();
-        actionlogin();
     }
 
     private void initialize() {
@@ -43,33 +38,49 @@ public class PanelLogin extends JFrame {
         passwordText.setBounds(100, 40, 160, 25);
         add(passwordText);
 
-        loginButton.setBounds(180, 80, 80, 25);
+        loginButton.setBounds(160, 80, 100, 25);
         add(loginButton);
+
+        setVisible(true);
     }
 
-    public void actionlogin() {
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                String puname = userText.getText();
-                String ppaswd = passwordText.getText();
-                if (manager.login(puname, ppaswd) != 0) {
+    public JLabel getUserLabel() {
+        return userLabel;
+    }
 
-                    Client leClient = new Client(manager.getInfosClient(manager.login(puname, ppaswd)));
+    public void setUserLabel(JLabel userLabel) {
+        this.userLabel = userLabel;
+    }
 
-                    System.out.println(leClient.getNomClient());
+    public JTextField getUserText() {
+        return userText;
+    }
 
-                    PanelClient panelclient = new PanelClient(leClient);
-                    panelclient.setVisible(true);
-                    dispose();
-                } else {
+    public void setUserText(JTextField userText) {
+        this.userText = userText;
+    }
 
-                    JOptionPane.showMessageDialog(null, "Mauvais MDP / Nom");
-                    userText.setText("");
-                    passwordText.setText("");
-                    userText.requestFocus();
-                }
+    public JLabel getPasswordLabel() {
+        return passwordLabel;
+    }
 
-            }
-        });
+    public void setPasswordLabel(JLabel passwordLabel) {
+        this.passwordLabel = passwordLabel;
+    }
+
+    public JPasswordField getPasswordText() {
+        return passwordText;
+    }
+
+    public void setPasswordText(JPasswordField passwordText) {
+        this.passwordText = passwordText;
+    }
+
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public void setLoginButton(JButton loginButton) {
+        this.loginButton = loginButton;
     }
 }
