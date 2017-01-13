@@ -5,16 +5,26 @@ package models;
  */
 public class Banque {
 
+    private int idBanque;
     private String nomBanque;
     private String adresseBanque;
-    private String cpBanque;
+    private int cpBanque;
     private String villeBanque;
 
-    public Banque(String nomBanque, String adresseBanque, String cpBanque, String villeBanque) {
+    public Banque(int idBanque, String nomBanque, String adresseBanque, int cpBanque, String villeBanque) {
+        this.idBanque = idBanque;
         this.nomBanque = nomBanque;
         this.adresseBanque = adresseBanque;
         this.cpBanque = cpBanque;
         this.villeBanque = villeBanque;
+    }
+
+    public int getIdBanque() {
+        return idBanque;
+    }
+
+    public void setIdBanque(int idBanque) {
+        this.idBanque = idBanque;
     }
 
     public String getNomBanque() {
@@ -33,11 +43,11 @@ public class Banque {
         this.adresseBanque = adresseBanque;
     }
 
-    public String getCpBanque() {
+    public int getCpBanque() {
         return cpBanque;
     }
 
-    public void setCpBanque(String cpBanque) {
+    public void setCpBanque(int cpBanque) {
         this.cpBanque = cpBanque;
     }
 

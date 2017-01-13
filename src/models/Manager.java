@@ -87,9 +87,9 @@ public class Manager {
 
     }
 
-    public String getSoldeCompte(String numeroCompte)
+    public Compte getInfosCompte(String numeroCompte)
     {
-        String res = "";
+        Compte compte = null;
 
         try
         {
@@ -99,7 +99,7 @@ public class Manager {
 
             while (resSect.next())
             {
-                res = resSect.getString("solde");
+                compte = new Compte(resSect.getInt("id"), resSect.getString("numero"), resSect.getDouble("solde"), resSect.getString("type"), resSect.getInt("id_banque"), resSect.getInt("id_client"));
             }
         }
         catch (SQLException e)
@@ -107,7 +107,30 @@ public class Manager {
             e.printStackTrace();
         }
 
-        return res;
+        return compte;
+    }
+
+    public Banque getInfosBanque(String numeroCompte)
+    {
+        Banque banque = null;
+
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM banque INNER JOIN compte ON compte.id_banque = banque.id WHERE compte.numero = '"+numeroCompte+"'");
+
+            while (resSect.next())
+            {
+                banque = new Banque(resSect.getInt("id"), resSect.getString("libelle"), resSect.getString("adresse"), resSect.getInt("cp"), resSect.getString("ville"));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return banque;
     }
 
 
