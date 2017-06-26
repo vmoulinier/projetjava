@@ -46,7 +46,20 @@ public class ctrlClient {
         //Quand on clique sur le bouton effectuer une operation
         panelclient.getBtnOperation().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                System.out.println("Page éffectuer opération");
+                PanelOperation Paneloperation = new PanelOperation();
+                ctrlOperation ctrloperation = new ctrlOperation(client, Paneloperation);
+                panelclient.setVisible(false);
+                ctrloperation.setActions(panelclient);
+            }
+        });
+
+        //Quand on clique sur le bouton historique des opérations
+        panelclient.getBtnHistOperation().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                PanelHistorique Panelhistorique = new PanelHistorique();
+                ctrlHistorique ctrlHistorique = new ctrlHistorique(client,Panelhistorique);
+                panelclient.setVisible(false);
+                ctrlHistorique.setAction(panelclient);
             }
         });
     }
