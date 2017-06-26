@@ -87,6 +87,31 @@ public class Manager {
 
     }
 
+    public ArrayList<Compte> getComptesNotFromClient(int id) {
+
+        ArrayList<Compte> arrayComptes = new ArrayList<>();
+
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM compte WHERE id_client != '"+id+"'");
+
+            while (resSect.next())
+            {
+                Compte compte = new Compte(resSect.getInt("id"), resSect.getString("numero"), resSect.getDouble("solde"), resSect.getString("type"), resSect.getInt("id_banque"), resSect.getInt("id_client"));
+                arrayComptes.add(compte);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return arrayComptes;
+
+    }
+
     public Compte getInfosCompte(String numeroCompte)
     {
         Compte compte = null;
@@ -133,5 +158,91 @@ public class Manager {
         return banque;
     }
 
+    public void setOperation(String comptedebite, String comptecredite, Double montant, String type, int id_client)
+    {
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            stmt.executeUpdate("INSERT INTO operation(numero_comptedebite, numero_comptecredite, montant, type, id_utilisateur) VALUES ('"+comptedebite+"','"+comptecredite+"','"+montant+"','"+type+"','"+id_client+"')");
+            stmt.executeUpdate("UPDATE compte SET solde = solde - '"+montant+"' WHERE numero = '"+comptedebite+"'");
+            stmt.executeUpdate("UPDATE compte SET solde = solde + '"+montant+"' WHERE numero = '"+comptecredite+"'");
 
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<Operation> getOperations(String Compte)
+    {
+        Operation operation;
+        ArrayList<Operation> arrayOperation = new ArrayList<>();
+
+        try {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM operation WHERE  operation.numero_comptedebite = "+Compte +" OR operation.numero_comptecredite = "+Compte);
+
+            while (resSect.next()){
+                operation = new Operation(resSect.getInt("id"), resSect.getString("libelle"), resSect.getString("numero_comptecredite"),resSect.getDouble("montant"),resSect.getString("type"),resSect.getTimestamp("date_operation"));
+                arrayOperation.add(operation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return arrayOperation;
+    }
+
+    public ArrayList<Operation> getOperationsFromCompte(String Compte)
+    {
+        Operation operation;
+        ArrayList<Operation> arrayOperations = new ArrayList<>();
+
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM operation WHERE numero_comptedebite = '" + Compte + "' OR numero_comptecredite = '" + Compte + "'" );
+
+            while(resSect.next())
+            {
+                operation = new Operation(resSect.getInt("id"), resSect.getString("libelle"), resSect.getString("numero_comptecredite"),resSect.getDouble("montant"),resSect.getString("type"),resSect.getTimestamp("date_operation"));
+                arrayOperations.add(operation);
+            }
+        }
+
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return arrayOperations;
+    }
+
+
+    public Operation getOperationsFromDate(String date)
+    {
+        Operation operation = null;
+
+        try
+        {
+            connexion.getconnection();
+            Statement stmt = connexion.conn.createStatement();
+            ResultSet resSect = stmt.executeQuery("SELECT * FROM operation WHERE date_operation = '" + date + "'" );
+
+            while (resSect.next())
+            {
+                operation = new Operation(resSect.getInt("id"), resSect.getString("libelle"), resSect.getString("numero_comptecredite"),resSect.getDouble("montant"),resSect.getString("type"),resSect.getTimestamp("date_operation"));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return operation;
+    }
 }
